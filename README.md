@@ -25,6 +25,10 @@
 
 ---
 
+# Dashboard & Databricks
+
+---
+
 ## 1. Resumen Ejecutivo
 
 ### El problema de negocio
@@ -284,70 +288,8 @@ Este gate de calidad corre como una celda dedicada al final del notebook Silver 
 
 ---
 
-## 6. Guía de Instalación y Ejecución
 
-### Pre-requisitos
-- Cuenta de [Databricks Community/Free Edition](https://www.databricks.com/try-databricks)
-- Cluster con Databricks Runtime ≥ 13.x (incluye Spark 3.x)
-- Acceso de lectura a los archivos fuente (CSV de exportación de cada plataforma)
-
-### Pasos
-
-1. **Clonar el repositorio**
-   ```bash
-   git clone https://github.com/<tu-usuario>/wpp-media-performance-latam.git
-   cd wpp-media-performance-latam
-   ```
-
-2. **Importar los notebooks a tu Workspace de Databricks**
-   - `notebooks/01_bronze_ingestion.py`
-   - `notebooks/02_silver_transformation.py`
-   - `notebooks/03_gold_aggregation.py`
-   - `notebooks/04_data_quality_checks.py`
-
-3. **Cargar los datos raw** al DBFS o a tu volume de Unity Catalog:
-   ```
-   /mnt/raw/google_ads/
-   /mnt/raw/meta_ads/
-   /mnt/raw/tiktok_ads/
-   ```
-
-4. **Ejecutar los notebooks en orden** (Bronze → Silver → Gold → Data Quality), ya sea manualmente o encadenados en un **Databricks Job/Workflow**.
-
-5. **Exportar la tabla Gold** para conectar a la herramienta de BI:
-   ```python
-   df_gold = spark.table("gold.gold_campaign_performance")
-   df_gold.toPandas().to_csv("/dbfs/mnt/exports/gold_campaign_performance.csv", index=False)
-   ```
-
-6. **Conectar la capa de BI**
-   - **Looker Studio:** conector nativo de BigQuery/Google Sheets, o carga del CSV exportado.
-   - **Tableau Public:** conexión directa vía extracto `.hyper` desde el CSV exportado.
-   - **Power BI:** import directo del CSV o conexión a Databricks SQL Warehouse vía el conector nativo de Power BI.
-
----
-
-## 7. Estructura del Repositorio
-
-```
-wpp-media-performance-latam/
-├── README.md
-├── notebooks/
-│   ├── 01_bronze_ingestion.py
-│   ├── 02_silver_transformation.py
-│   ├── 03_gold_aggregation.py
-│   └── 04_data_quality_checks.py
-├── data/
-│   └── gold_campaign_performance.csv
-├── dashboards/
-│   └── dashboard_wpp.pbix
-└── docs/
-    └── architecture_diagram.png
-```
-
----
-
-## 8. Conclusiones Técnicas y Valor de Negocio
+## 6. Conclusiones Técnicas y Valor de Negocio
 
 **Desde el punto de vista técnico**, este pipeline resuelve el problema de raíz en lugar de parchearlo en la capa de visualización: al centralizar el cálculo de KPIs en Databricks con `SAFE_DIVIDE`/`CASE WHEN` contra división por cero, y al aplicar reglas de negocio (segmentación Performance/Branding, mapeo de mercados) en una capa versionada y testeada, se elimina la posibilidad de que dos stakeholders reporten números distintos para el mismo período — el problema más costoso y más común en operaciones de medios multi-mercado.
 
@@ -361,5 +303,5 @@ wpp-media-performance-latam/
 ---
 
 <p align="center">
-  <sub>Built with 🌿 for Natura Latam · WPP Media Analytics · 2024</sub>
+  <sub>Built with 🌿 for Natura Latam · WPP Media Analytics · 2026</sub>
 </p>
