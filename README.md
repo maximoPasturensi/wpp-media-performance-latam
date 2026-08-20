@@ -227,72 +227,23 @@ GROUP BY date, platform, campaign_type, campaign_objetive, product_category, mar
 
 ---
 
-## 4. Data Quality & Testing
 
-Antes de promover cualquier tabla de Silver a Gold, el pipeline ejecuta una batería de validaciones automáticas. Ninguna carga se publica si alguna prueba falla.
 
-```python
-def run_data_quality_checks(df):
-    results = {}
-
-    # Test 1 — 0% de fechas nulas
-    null_dates = df.filter(col("date").isNull()).count()
-    results["null_dates_check"] = "PASS" if null_dates == 0 else f"FAIL ({null_dates} nulls)"
-
-    # Test 2 — 0% de mercados no mapeados
-    valid_markets = ["Brazil", "Mexico", "Argentina"]
-    invalid_markets = df.filter(~col("market").isin(valid_markets)).count()
-    results["market_mapping_check"] = "PASS" if invalid_markets == 0 else f"FAIL ({invalid_markets} unmapped)"
-
-    # Test 3 — Integridad referencial de plataformas
-    valid_platforms = ["Google Ads", "Meta Ads", "TikTok Ads"]
-    invalid_platforms = df.filter(~col("platform").isin(valid_platforms)).count()
-    results["platform_integrity_check"] = "PASS" if invalid_platforms == 0 else f"FAIL ({invalid_platforms} invalid)"
-
-    # Test 4 — Consistencia de volumen (row count esperado)
-    row_count = df.count()
-    results["row_count_check"] = f"PASS ({row_count} rows)" if row_count == 1800 else f"WARNING ({row_count} rows, expected 1800)"
-
-    # Test 5 — Valores negativos en métricas monetarias/numéricas
-    negative_values = df.filter(
-        (col("total_ad_spend") < 0) | (col("total_revenue") < 0) | (col("total_conversions") < 0)
-    ).count()
-    results["non_negative_metrics_check"] = "PASS" if negative_values == 0 else f"FAIL ({negative_values} rows)"
-
-    return results
-
-qa_report = run_data_quality_checks(df_silver)
-for check, result in qa_report.items():
-    print(f"{check}: {result}")
-```
-
-| Test | Descripción | Umbral de Aceptación |
-|---|---|---|
-| `null_dates_check` | Ninguna fila sin fecha de campaña | 0% nulos |
-| `market_mapping_check` | Todos los mercados estandarizados al set válido (Brazil/Mexico/Argentina) | 0% no mapeados |
-| `platform_integrity_check` | Plataforma pertenece al set válido de fuentes ingestadas | 100% integridad |
-| `row_count_check` | Volumen de filas consistente con el histórico de carga esperado | 1.800 filas |
-| `non_negative_metrics_check` | Sin valores negativos en spend, revenue o conversiones | 0 valores negativos |
-
-Este gate de calidad corre como una celda dedicada al final del notebook Silver → Gold, y su salida queda loggeada como evidencia auditable de que el dataset que llega a BI pasó control de calidad antes de ser publicado.
-
----
-
-## 5. Stack Tecnológico
+## 4. Stack Tecnológico
 
 | Categoría | Herramienta |
 |---|---|
 | Procesamiento distribuido | Databricks Free Edition, Apache Spark (PySpark + Spark SQL) |
 | Almacenamiento | Delta Lake (formato transaccional, versionado ACID) |
 | Arquitectura de datos | Medallion Architecture (Bronze / Silver / Gold) |
-| Calidad de datos | Validaciones SQL/PySpark custom (data quality gate) |
-| Capa de BI | Looker Studio, Tableau Public, Power BI |
+| Calidad de datos | Validaciones SQL |
+| Capa de BI | Power BI |
 | Control de versiones | Git / GitHub |
 
 ---
 
 
-## 6. Conclusiones Técnicas y Valor de Negocio
+## 5. Conclusiones Técnicas y Valor de Negocio
 
 **Desde el punto de vista técnico**, este pipeline resuelve el problema de raíz en lugar de parchearlo en la capa de visualización: al centralizar el cálculo de KPIs en Databricks con `SAFE_DIVIDE`/`CASE WHEN` contra división por cero, y al aplicar reglas de negocio (segmentación Performance/Branding, mapeo de mercados) en una capa versionada y testeada, se elimina la posibilidad de que dos stakeholders reporten números distintos para el mismo período — el problema más costoso y más común en operaciones de medios multi-mercado.
 
