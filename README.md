@@ -25,8 +25,11 @@
 
 ---
 
-# Dashboard & Databricks
+# 📊 Executive BI Dashboard & Databricks
 
+![Dashboard Preview](assets/dashboard_pbix.gif)
+
+![Capa_Silver](assets/silver_gif.gif)
 ---
 
 ## 1. Resumen Ejecutivo
