@@ -7,7 +7,7 @@
 ![SparkSQL](https://img.shields.io/badge/Spark%20SQL-3776AB?style=for-the-badge&logo=apachespark&logoColor=white)
 ![Delta Lake](https://img.shields.io/badge/Delta%20Lake-00ADD4?style=for-the-badge&logo=delta&logoColor=white)
 ![Medallion Architecture](https://img.shields.io/badge/Architecture-Medallion-8A9A5B?style=for-the-badge)
-![BI](https://img.shields.io/badge/BI-Looker%20Studio%20%7C%20Tableau-4285F4?style=for-the-badge&logo=looker&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power_BI-F2C94C?style=for-the-badge&logo=powerbi&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Production--Ready-6B4423?style=for-the-badge)
 
 ---
