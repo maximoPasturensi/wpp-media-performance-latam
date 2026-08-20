@@ -3,8 +3,7 @@
 **End-to-end Data Pipeline & Dimensional Modeling for Digital Media Performance | Natura Latam Account**
 
 ![Databricks](https://img.shields.io/badge/Databricks-FF3621?style=for-the-badge&logo=databricks&logoColor=white)
-![PySpark](https://img.shields.io/badge/PySpark-E25A1C?style=for-the-badge&logo=apachespark&logoColor=white)
-![SparkSQL](https://img.shields.io/badge/Spark%20SQL-3776AB?style=for-the-badge&logo=apachespark&logoColor=white)
+![SQL](https://img.shields.io/badge/Data-SQL-4479A1?style=for-the-badge&logo=sqlite&logoColor=white)
 ![Delta Lake](https://img.shields.io/badge/Delta%20Lake-00ADD4?style=for-the-badge&logo=delta&logoColor=white)
 ![Medallion Architecture](https://img.shields.io/badge/Architecture-Medallion-8A9A5B?style=for-the-badge)
 ![Power BI](https://img.shields.io/badge/Power_BI-F2C94C?style=for-the-badge&logo=powerbi&logoColor=white)
